@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+   为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+ -->
+<mapper namespace="com.wpw.mybatislearn.mapper.UserMapper">
+    <resultMap id="userResultMap" type="com.wpw.mybatislearn.entity.User">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="age" column="age"></result>
+    </resultMap>
+    <select id="searchUser" parameterType="int" resultMap="userResultMap">
+        select *
+        from user
+        where id = #{id};
+    </select>
+    <select id="listUser" resultMap="userResultMap">
+        select *
+        from user;
+    </select>
+    <insert id="insert" parameterType="com.wpw.mybatislearn.entity.User" useGeneratedKeys="true" keyProperty="id"
+            flushCache="true">
+        insert into user(user_name, age)
+        values (#{userName}, #{age})
+    </insert>
+    <update id="update" parameterType="com.wpw.mybatislearn.entity.User">
+        update user
+        set user_name=#{userName},
+            age=#{age}
+        where id = #{id}
+    </update>
+    <delete id="delete" parameterType="int" flushCache="true">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+</mapper>
